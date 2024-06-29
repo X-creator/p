@@ -1,0 +1,125 @@
+import { CELL_CLASS_NAMES, COLUMN_GROUPS, ColumnGroupingModel, Columns } from "../lib/auxiliary.ts";
+import { renderAddRowAction, renderDownloadLink, renderEditRowAction } from "../lib/renderFn.tsx";
+import { dateFormat, dateParser } from "shared/lib/utils.ts";
+import { customSortComparator } from "widgets/data-table/lib/utils.ts";
+
+export const columnGroupingModel: ColumnGroupingModel = [
+  {
+    groupId: COLUMN_GROUPS.left,
+    headerName: "Документ",
+    headerAlign: "center",
+    headerClassName: COLUMN_GROUPS.left,
+    children: [{ field: "documentName" }, { field: "documentType" }, { field: "documentStatus" }],
+  },
+  {
+    groupId: COLUMN_GROUPS.center,
+    headerName: "Сотрудник",
+    headerAlign: "center",
+    headerClassName: COLUMN_GROUPS.center,
+    children: [
+      { field: "employeeNumber" },
+      { field: "employeeSigDate" },
+      { field: "employeeSignatureName" },
+    ],
+  },
+  {
+    groupId: COLUMN_GROUPS.right,
+    headerName: "Компания",
+    headerAlign: "center",
+    headerClassName: COLUMN_GROUPS.right,
+    children: [{ field: "companySigDate" }, { field: "companySignatureName" }],
+  },
+];
+
+export const columns: Columns = [
+  {
+    field: "actions",
+    type: "actions",
+    width: 100,
+    getActions: renderEditRowAction,
+    renderHeader: renderAddRowAction,
+  },
+  {
+    flex: 2,
+    field: "documentName",
+    headerName: "Имя",
+    headerAlign: "left",
+    align: "left",
+    sortable: false,
+    renderCell: renderDownloadLink,
+    editable: true,
+  },
+  {
+    flex: 2,
+    field: "documentType",
+    headerName: "Тип",
+    getSortComparator: customSortComparator,
+    editable: true,
+  },
+  {
+    flex: 2,
+    field: "documentStatus",
+    headerName: "Статус",
+    getSortComparator: customSortComparator,
+    editable: true,
+  },
+
+  {
+    flex: 2,
+    field: "employeeNumber",
+    headerName: "№",
+    headerAlign: "left",
+    cellClassName: CELL_CLASS_NAMES.employeeNumber,
+    align: "left",
+    type: "number",
+    valueParser: (value) => `${value}`,
+    getSortComparator: customSortComparator,
+    editable: true,
+  },
+  {
+    width: 100,
+    field: "employeeSigDate",
+    headerName: "Дата",
+    headerAlign: "center",
+    cellClassName: CELL_CLASS_NAMES.date,
+    align: "center",
+    type: "dateTime",
+    valueFormatter: dateFormat,
+    valueParser: dateParser,
+    getSortComparator: customSortComparator,
+    editable: true,
+  },
+  {
+    flex: 2,
+    field: "employeeSignatureName",
+    headerName: "Подпись",
+    headerAlign: "right",
+    align: "right",
+    sortable: false,
+    renderCell: renderDownloadLink,
+    editable: true,
+  },
+  {
+    width: 100,
+    field: "companySigDate",
+    headerName: "Дата",
+    headerAlign: "center",
+    cellClassName: CELL_CLASS_NAMES.date,
+    align: "center",
+    type: "dateTime",
+    valueFormatter: dateFormat,
+    valueParser: dateParser,
+    getSortComparator: customSortComparator,
+    editable: true,
+  },
+  {
+    flex: 2,
+    field: "companySignatureName",
+    headerName: "Подпись",
+    headerAlign: "right",
+    align: "right",
+    sortable: false,
+    renderCell: renderDownloadLink,
+    editable: true,
+  },
+];
